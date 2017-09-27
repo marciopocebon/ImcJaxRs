@@ -39,8 +39,26 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $('#resultado').hide();
+
                 $('form').submit(function (ev) {
-                    $('#resultado').show();
+                    var nome = $('#nome').val();
+
+                    $.ajax({
+                        url: 'webresources/pessoas/' + nome + '/imc',
+                        method: 'get',
+                        data: {
+                            peso: $('#peso').val(),
+                            altura: $('#altura').val()
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            $('#resultado_nome').html(nome);
+                            $('#imc').html(data.valor);
+                            $('#categoria').html(data.categoria);
+
+                            $('#resultado').show();
+                        }
+                    });
+
                     ev.preventDefault();
                 });
             });
